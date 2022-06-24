@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./db');
 const Joi = require('joi');
+const db = require('./db');
 const connection = require('./db');
 const app = express();
 
@@ -81,6 +81,7 @@ app.get('/album/:id', (req, res) => {
 });
 
 // update an album
+
 app.put('/album/:id', (req, res) => {
   const albumId = req.params.id;
   const albumPropsToUpdate = req.body;
@@ -124,7 +125,7 @@ app.post('/track', async (req, res) => {
     const { error: validationErrors } = Joi.object({
       title: Joi.string().max(255).required(),
       youtube_url: Joi.string().max(255).required(),
-      id_album: Joi.string().required(),
+      idAlbum: Joi.string().required(),
     }).validate({ title, youtubeUrl, idAlbum }, { abortEarly: false });
 
     if (validationErrors) {
@@ -143,5 +144,67 @@ app.post('/track', async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+// retrieve the full list of tracks
+
+app.get('/track', async (req, res) => {
+  try {
+    const [track] = await db.promise().query('SELECT * FROM track');
+    res.send(track);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('something wrong happened');
+  }
+});
+
+// retrieve one track by its ID
+
+app.get('/track/:id', (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: 'Data to update cannot be empty!',
+    });
+  }
+  const trackId = req.params.id;
+  connection.query(
+    'SELECT * FROM track WHERE id = ?',
+    [trackId],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error retrieving track from database');
+      } else if (result.length === 0) {
+        res.status(404).send('track is not found');
+      } else {
+        res.json(result[0]);
+      }
+    }
+  );
+});
+
+// retrieve the track list of one album
+
+app.get('/album/:id/track', (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: 'Data to update cannot be empty!',
+    });
+  }
+//   const albumId = req.params.id;
+//   connection.query(
+//     'SELECT * FROM album WHERE id = ?',
+//     [albumId],
+//     (err, result) => {
+//       if (err) {
+//         console.error(err);
+//         res.status(500).send('Error retrieving album from database');
+//       } else if (result.length === 0) {
+//         res.status(404).send('Album not found');
+//       } else {
+//         res.json(result[0]);
+//       }
+//     }
+//   );
+// });
 
 module.exports.app = app;
