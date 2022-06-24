@@ -1,0 +1,3 @@
+/* RESET FOR ALBUM */
+
+DROP TABLE IF EXISTS `album`;

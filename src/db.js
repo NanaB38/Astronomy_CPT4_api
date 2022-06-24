@@ -1,5 +1,11 @@
 const mysql = require('mysql2');
-const { DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME } = require('./env.js');
+const {
+  DB_HOST,
+  DB_PORT,
+  DB_USER,
+  DB_PASS,
+  DB_NAME,
+} = require('./environnement.js');
 
 const connection = mysql.createConnection({
   host: DB_HOST,
