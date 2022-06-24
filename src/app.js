@@ -8,19 +8,44 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// const port = process.env.PORT || 3000;
+// const middleware1 = (req, res, next) => {
+//   console.log('doing stuff in middleware 1');
+//   next();
+// };
+// app.use(middleware1);
 
-const middleware1 = (req, res, next) => {
-  console.log('doing stuff in middleware 1');
-  // ajouter next pour ne pas faire tourner le serveur en continu
-  next();
-};
+// TO CREATE A NEW ALBUM
 
-app.use(middleware1);
+app.post('/album', async (req, res) => {
+  try {
+    const { title, genre, picture, artist } = req.body;
+    const { error: validationErrors } = Joi.object({
+      title: Joi.string().max(255).required(),
+      genre: Joi.string().max(255).required(),
+      picture: Joi.string().max(255).required(),
+      artist: Joi.string().max(255).required(),
+    }).validate({ title, genre, picture, artist }, { abortEarly: false });
 
-// TO GET ALL THE ALBUMS
+    if (validationErrors) {
+      return res.status(422).json({ errors: validationErrors.details });
+    }
+    const [{ insertId }] = await db
+      .promise()
+      .query(
+        'INSERT INTO album (title, genre, picture, artist) VALUES (?, ?, ?, ?)',
+        [title, genre, picture, artist]
+      );
 
-app.get('/albums', async (req, res) => {
+    res.status(201).send({ id: insertId, title, genre, picture, artist });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+// retrieve the full list of albums
+
+app.get('/album', async (req, res) => {
   try {
     const [album] = await db.promise().query('SELECT * FROM album');
     res.send(album);
@@ -29,5 +54,27 @@ app.get('/albums', async (req, res) => {
     res.status(500).send('something wrong happened');
   }
 });
+
+// retrieve one album by its ID
+
+app.get('/album/:id', (req, res) => {
+  const albumId = req.params.id;
+  connection.query(
+    'SELECT * FROM album WHERE id = ?',
+    [albumId],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error retrieving album from database');
+      } else if (result.length === 0) {
+        res.status(404).send('Album not found');
+      } else {
+        res.json(result[0]);
+      }
+    }
+  );
+});
+
+// update an album
 
 module.exports.app = app;
