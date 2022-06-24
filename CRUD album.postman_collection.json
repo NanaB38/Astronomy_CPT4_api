@@ -1,0 +1,78 @@
+http://localhost:3000/track
+
+[
+    {
+        "id": 1,
+        "title": "Bohemian Rhapsody",
+        "youtubeUrl": "http://youtube.fr",
+        "idAlbum": 3
+    },
+    {
+        "id": 2,
+        "title": "We will Rock you",
+        "youtubeUrl": "http://youtube.fr",
+        "idAlbum": 3
+    }
+]
+
+http://localhost:3000/album
+
+[
+    {
+        "id": 1,
+        "title": "Bohemian Rhapsody",
+        "genre": "pop-rock",
+        "picture": "image",
+        "artist": "Queen"
+    },
+    {
+        "id": 3,
+        "title": "Californication",
+        "genre": "alternative rock",
+        "picture": "https://static.fnac-static.com/multimedia/Images/FR/NR/d1/a3/0b/762833/1540-1/tsp20131213113019/Californication.jpg",
+        "artist": "Red Hot Chili Peppers"
+    }
+]
+
+{
+	"info": {
+		"_postman_id": "541e292b-5c0e-4d67-9a54-2f193aacee90",
+		"name": "CRUD album",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20703833"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3000/track/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"title\": \"We will Rock you\",\n    \"youtubeUrl\": \"http://youtube.fr\",\n    \"idAlbum\": \"3\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/track/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"track",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

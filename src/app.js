@@ -8,12 +8,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// const middleware1 = (req, res, next) => {
-//   console.log('doing stuff in middleware 1');
-//   next();
-// };
-// app.use(middleware1);
-
 // TO CREATE A NEW ALBUM
 
 app.post('/album', async (req, res) => {
@@ -102,6 +96,7 @@ app.put('/album/:id', (req, res) => {
 });
 
 // delete an album
+
 app.delete('/album/:id', (req, res) => {
   const albumId = req.params.id;
   connection.query(
@@ -119,12 +114,13 @@ app.delete('/album/:id', (req, res) => {
 });
 
 // create a new track
+
 app.post('/track', async (req, res) => {
   try {
     const { title, youtubeUrl, idAlbum } = req.body;
     const { error: validationErrors } = Joi.object({
       title: Joi.string().max(255).required(),
-      youtube_url: Joi.string().max(255).required(),
+      youtubeUrl: Joi.string().max(255).required(),
       idAlbum: Joi.string().required(),
     }).validate({ title, youtubeUrl, idAlbum }, { abortEarly: false });
 
@@ -184,12 +180,12 @@ app.get('/track/:id', (req, res) => {
 
 // retrieve the track list of one album
 
-app.get('/album/:id/track', (req, res) => {
-  if (!req.body) {
-    return res.status(400).send({
-      message: 'Data to update cannot be empty!',
-    });
-  }
+// app.get('/album/:id/track', (req, res) => {
+//   if (!req.body) {
+//     return res.status(400).send({
+//       message: 'Data to update cannot be empty!',
+//     });
+//   }
 //   const albumId = req.params.id;
 //   connection.query(
 //     'SELECT * FROM album WHERE id = ?',
@@ -205,6 +201,5 @@ app.get('/album/:id/track', (req, res) => {
 //       }
 //     }
 //   );
-// });
 
 module.exports.app = app;
