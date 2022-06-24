@@ -12,12 +12,7 @@ Do your best, and most importantly HAVE FUN 😃
 
 Before starting anything technical, your first mission is to clone this project, then create a branch with your lastname and firstname like so : `lastname_firstname`
 
-## :one: Quizz | 5 min
-
-Go to [this link](https://wild-quizz.jsrover.wilders.dev/play/js-checkpoint-3-en). You will need to login with Github in order to access it.  
-Once you have validated it, you can check your answers on your [profile page](https://wild-quizz.jsrover.wilders.dev/profile)
-
-## :two: Database modeling | 20-25 min
+## :one: Database modeling | 20-25 min
 
 We want to build a website that allows users to discover and share cooking recipes. Your mission here is to provide a **logical data model** that meets the following constraints for the application :
 
@@ -44,7 +39,7 @@ You can use the tool of your choice to produce the database model :
 
 Once you're satisfied with your data model, take a picture, a screenshot or export as an image and commit it to your branch.
 
-## :three: Node / SQL | 3h30
+## :two: Node / SQL | 3h30
 
 ![](https://camo.githubusercontent.com/fff9dcda39624d1d9f89f23cb2c6dc54dae750a52700b930afbd2af7b0d1e293/68747470733a2f2f6c61756768696e6773717569642e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031332f30352f676976656c6966656261636b746f6d75736963352e676966)
 
@@ -102,6 +97,7 @@ If you have some time left, try to :
 - write a few tests with jest and supertest 
 - Implement a simple user system with registration and login features.
 - Implement roles and permissions, for example : unlogged  users shouldn't be able to access the album or tracks routes, and only users with the role 'artist' should be able to perform write operations on albums and tracks.
+- Implement a front-end interface that works with your API
 
 ## It's done ! Congrats !
 
