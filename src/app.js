@@ -117,4 +117,31 @@ app.delete('/album/:id', (req, res) => {
   );
 });
 
+// create a new track
+app.post('/track', async (req, res) => {
+  try {
+    const { title, youtubeUrl, idAlbum } = req.body;
+    const { error: validationErrors } = Joi.object({
+      title: Joi.string().max(255).required(),
+      youtube_url: Joi.string().max(255).required(),
+      id_album: Joi.string().required(),
+    }).validate({ title, youtubeUrl, idAlbum }, { abortEarly: false });
+
+    if (validationErrors) {
+      return res.status(422).json({ errors: validationErrors.details });
+    }
+    const [{ insertId }] = await db
+      .promise()
+      .query(
+        'INSERT INTO track (title, youtubeUrl, idAlbum) VALUES (?, ?, ?)',
+        [title, youtubeUrl, idAlbum]
+      );
+
+    res.status(201).send({ id: insertId, title, youtubeUrl, idAlbum });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
 module.exports.app = app;
