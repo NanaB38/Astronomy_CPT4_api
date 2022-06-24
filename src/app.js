@@ -58,6 +58,11 @@ app.get('/album', async (req, res) => {
 // retrieve one album by its ID
 
 app.get('/album/:id', (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: 'Data to update cannot be empty!',
+    });
+  }
   const albumId = req.params.id;
   connection.query(
     'SELECT * FROM album WHERE id = ?',
@@ -76,5 +81,40 @@ app.get('/album/:id', (req, res) => {
 });
 
 // update an album
+app.put('/album/:id', (req, res) => {
+  const albumId = req.params.id;
+  const albumPropsToUpdate = req.body;
+  connection.query(
+    'UPDATE album SET ? WHERE id = ?',
+    [albumPropsToUpdate, albumId],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('Error updating an album');
+      } else if (result.affectedRows === 0) {
+        res.status(404).send(`Album with id ${albumId} not found.`);
+      } else {
+        res.sendStatus(204);
+      }
+    }
+  );
+});
+
+// delete an album
+app.delete('/album/:id', (req, res) => {
+  const albumId = req.params.id;
+  connection.query(
+    'DELETE FROM album WHERE id = ?',
+    [albumId],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error deleting an album');
+      } else {
+        res.sendStatus(204);
+      }
+    }
+  );
+});
 
 module.exports.app = app;
