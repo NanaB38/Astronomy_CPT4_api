@@ -204,4 +204,43 @@ app.get('/album/:id/track', (req, res) => {
   );
 });
 
+// update a track
+
+app.put('/track/:id', (req, res) => {
+  const trackId = req.params.id;
+  const trackPropsToUpdate = req.body;
+  connection.query(
+    'UPDATE track SET ? WHERE id = ?',
+    [trackPropsToUpdate, trackId],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('Error updating an track');
+      } else if (result.affectedRows === 0) {
+        res.status(404).send(`Track with id ${trackId} not found.`);
+      } else {
+        res.sendStatus(204);
+      }
+    }
+  );
+});
+
+// delete a track
+
+app.delete('/track/:id', (req, res) => {
+  const trackId = req.params.id;
+  connection.query(
+    'DELETE FROM track WHERE id = ?',
+    [trackId],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error deleting a track');
+      } else {
+        res.sendStatus(204);
+      }
+    }
+  );
+});
+
 module.exports.app = app;

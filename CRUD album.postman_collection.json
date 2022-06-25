@@ -10,23 +10,24 @@
         "title": "We will Rock you",
         "youtubeUrl": "http://youtube.fr",
         "idAlbum": 3
-    }
-]
-
-[
-    {
-        "id": 1,
-        "title": "Bohemian Rhapsody",
-        "genre": "pop-rock",
-        "picture": "image",
-        "artist": "Queen"
     },
     {
         "id": 3,
-        "title": "Californication",
-        "genre": "alternative rock",
-        "picture": "https://static.fnac-static.com/multimedia/Images/FR/NR/d1/a3/0b/762833/1540-1/tsp20131213113019/Californication.jpg",
-        "artist": "Red Hot Chili Peppers"
+        "title": "Around the World",
+        "youtubeUrl": "https://www.youtube.com/watch?v=a9eNQZbjpJk",
+        "idAlbum": 1
+    },
+    {
+        "id": 4,
+        "title": "Otherside",
+        "youtubeUrl": "http://youtube.fr",
+        "idAlbum": 1
+    },
+    {
+        "id": 6,
+        "title": "Can't Stop",
+        "youtubeUrl": "https://www.youtube.com/watch?v=8DyziWtkfBw",
+        "idAlbum": 1
     }
 ]
 
