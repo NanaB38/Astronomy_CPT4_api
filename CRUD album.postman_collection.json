@@ -1,5 +1,3 @@
-http://localhost:3000/track
-
 [
     {
         "id": 1,
@@ -14,8 +12,6 @@ http://localhost:3000/track
         "idAlbum": 3
     }
 ]
-
-http://localhost:3000/album
 
 [
     {

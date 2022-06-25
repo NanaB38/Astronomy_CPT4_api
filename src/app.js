@@ -3,6 +3,7 @@ const cors = require('cors');
 const Joi = require('joi');
 const db = require('./db');
 const connection = require('./db');
+
 const app = express();
 
 app.use(express.json());
@@ -180,26 +181,27 @@ app.get('/track/:id', (req, res) => {
 
 // retrieve the track list of one album
 
-// app.get('/album/:id/track', (req, res) => {
-//   if (!req.body) {
-//     return res.status(400).send({
-//       message: 'Data to update cannot be empty!',
-//     });
-//   }
-//   const albumId = req.params.id;
-//   connection.query(
-//     'SELECT * FROM album WHERE id = ?',
-//     [albumId],
-//     (err, result) => {
-//       if (err) {
-//         console.error(err);
-//         res.status(500).send('Error retrieving album from database');
-//       } else if (result.length === 0) {
-//         res.status(404).send('Album not found');
-//       } else {
-//         res.json(result[0]);
-//       }
-//     }
-//   );
+app.get('/album/:id/track', (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: 'Data to update cannot be empty!',
+    });
+  }
+  const [albumId, track] = req.params.id;
+  connection.query(
+    'SELECT * FROM track AS t JOIN album AS a ON a.id = t.idAlbum WHERE a.id = ?',
+    [albumId, track],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error retrieving album from database');
+      } else if (result.length === 0) {
+        res.status(404).send('Album not found');
+      } else {
+        res.json(result[0]);
+      }
+    }
+  );
+});
 
 module.exports.app = app;
