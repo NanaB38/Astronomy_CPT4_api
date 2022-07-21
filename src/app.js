@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const express = require('express');
 const cors = require('cors');
 const Joi = require('joi');
