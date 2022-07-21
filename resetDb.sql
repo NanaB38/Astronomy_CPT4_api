@@ -1,5 +1,5 @@
 /* RESET FOR TABLES */
 
-DROP TABLE IF EXISTS `album`;
+DROP TABLE IF EXISTS `planets`;
 
-DROP TABLE IF EXISTS `track`;
+DROP TABLE IF EXISTS `galaxies`;
