@@ -23,11 +23,11 @@ app.get('/planets', async (req, res) => {
 });
 
 // GET ONE PLANET BY ID
-app.get('/planets/:id', async (req, res) => {
-  const { id } = req.params;
+app.get('/planets/:name', async (req, res) => {
+  const { name } = req.params;
   connexion
     .promise()
-    .query('SELECT * FROM planets WHERE id = ?', [id])
+    .query('SELECT * FROM planets WHERE name = ?', [name])
     .then(([results]) => {
       res.json(results);
     })
