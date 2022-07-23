@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// GET THE FULL LIST OF PLANETS
+// GET THE FULL LIST OF PLANETS POSTS
 
 app.get('/planets', async (req, res) => {
   try {
@@ -20,21 +20,6 @@ app.get('/planets', async (req, res) => {
     console.error(err);
     res.status(500).send('something wrong happened');
   }
-});
-
-// GET ONE PLANET BY ID
-app.get('/planets/:name', async (req, res) => {
-  const { name } = req.params;
-  connexion
-    .promise()
-    .query('SELECT * FROM planets WHERE name = ?', [name])
-    .then(([results]) => {
-      res.json(results);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send('Error retrieving the planet from the database');
-    });
 });
 
 // CREATE A NEW PLANET POST
@@ -78,6 +63,36 @@ app.delete('/planets/:id', async (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(500).send('Error deleting your planet post');
+    });
+});
+
+// GET THE FULL LIST OF PLANETS
+
+app.get('/planets_nasa', async (req, res) => {
+  try {
+    const [planets_nasa] = await db
+      .promise()
+      .query('SELECT * FROM planets_nasa');
+    res.send(planets_nasa);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('something wrong happened');
+  }
+});
+
+// GET ONE PLANET BY NAME
+
+app.get('/planets_nasa/:name', async (req, res) => {
+  const { name } = req.params;
+  connexion
+    .promise()
+    .query('SELECT * FROM planets WHERE name = ?', [name])
+    .then(([results]) => {
+      res.json(results);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send('Error retrieving the planet from the database');
     });
 });
 
