@@ -50,20 +50,40 @@ app.post('/planets', async (req, res) => {
   }
 });
 
-// DELETE A PLANET POST
+// GET A PLANET POST BY ID
 
-app.delete('/planets/:id', async (req, res) => {
+app.get('/planets/:id', async (req, res) => {
   const { id } = req.params;
   connexion
     .promise()
-    .query('DELETE FROM planets WHERE id = ?', [id])
-    .then(() => {
-      res.status(200).send('Post has been successfully deleted');
+    .query('SELECT * FROM planets WHERE id = ?', [id])
+    .then(([results]) => {
+      res.json(results);
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).send('Error deleting your planet post');
+      res
+        .status(500)
+        .send('Error retrieving the planet post from the database');
     });
+});
+
+// DELETE A PLANET POST
+
+app.delete('/planets/:id', (req, res) => {
+  const planetsId = req.params.id;
+  connexion.query(
+    'DELETE FROM planets WHERE id = ?',
+    [planetsId],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error deleting a planet post');
+      } else {
+        res.status(204).send('Planet post deleted successfully... ');
+      }
+    }
+  );
 });
 
 // GET THE FULL LIST OF PLANETS
